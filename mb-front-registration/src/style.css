@@ -59,3 +59,7 @@ button {
     color: var(--light-color);
   }
 }
+
+.hilight-text {
+  color: var(--primary-color);
+}

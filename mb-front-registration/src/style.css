@@ -1,79 +1,53 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: Avenir, Arial, sans-serif;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* variáveis de estilo */
+  --primary-color: #ff9900;
+  --text-color: #242424;
+  --light-color: #fff;
+  --font-size-small: 0.5rem; /* 8px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-large: 1.5rem; /* 24px */
+  --radius: 0.3rem; /* 4.8px */
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+* {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+  box-sizing: border-box;
+  color: var(--text-color);
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  font-size: var(--font-size-large);
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  padding: 0.5rem 1rem; /* 8px, 16px */
+  font-size: var(--font-size-small); /* 8px */
+  border-radius: var(--radius);
+  border: 1px solid var(--primary-color);
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-.card {
-  padding: 2em;
-}
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  transition: filter 0.3s;
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+  &:hover {
+    filter: brightness(110%);
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary-color);
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: var(--primary-color);
+    color: var(--light-color);
   }
 }

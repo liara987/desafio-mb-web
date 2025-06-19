@@ -12,6 +12,14 @@
   --radius: 0.3rem; /* 4.8px */
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -25,10 +33,10 @@ h1 {
 
 button {
   padding: 0.5rem 1rem; /* 8px, 16px */
-  font-size: var(--font-size-small); /* 8px */
   border-radius: var(--radius);
   border: 1px solid var(--primary-color);
   cursor: pointer;
+  width: 100%;
 }
 
 .btn-primary {

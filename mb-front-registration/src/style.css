@@ -39,6 +39,18 @@ button {
   width: 100%;
 }
 
+.input-default {
+  padding: 0.5rem; /* 8px */
+  border: 1px solid var(--text-color);
+  border-radius: var(--radius);
+  transition: border-color 0.3s;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+}
+
 .btn-primary {
   background-color: var(--primary-color);
   color: var(--light-color);

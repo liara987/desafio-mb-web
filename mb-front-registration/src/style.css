@@ -30,6 +30,7 @@
 
 h1 {
   font-size: var(--font-size-large);
+  margin: 1rem 0; /* 16px */
 }
 
 button {
@@ -41,6 +42,15 @@ button {
 
   &:disabled {
     cursor: not-allowed;
+  }
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+
+  input {
+    margin-top: 0.5rem; /* 8px */
   }
 }
 
@@ -86,6 +96,16 @@ button {
     outline: none;
     border-color: var(--primary-color);
   }
+}
+
+.error-message {
+  color: red;
+  font-size: 0.5rem; /*8px */
+  margin-top: 0.3rem; /*4.8px */
+}
+
+.input-invalid:not(:focus) {
+  border-color: red;
 }
 
 .hilight-text {

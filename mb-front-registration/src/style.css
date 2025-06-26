@@ -54,6 +54,10 @@ label {
   }
 }
 
+span {
+  margin: 0;
+}
+
 .btn-primary {
   background-color: var(--primary-color);
   color: var(--light-color);

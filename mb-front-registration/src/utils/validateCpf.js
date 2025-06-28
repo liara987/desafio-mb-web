@@ -1,4 +1,4 @@
-export function cpfIsValid(cpf) {
+export function isCpfValid(cpf) {
   let soma = 0;
   let resto;
 

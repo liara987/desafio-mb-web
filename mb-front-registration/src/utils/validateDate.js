@@ -1,7 +1,7 @@
-export function dateIsValid(dateOrYear, month, day) {
+export function isDateValid(dateOrYear, month, day) {
   let year, dateMonth, dateDay;
 
-  // ✅ Caso 1: string no formato "aaaa-mm-dd"
+  // se a string vir "aaaa-mm-dd"
   if (
     typeof dateOrYear === "string" &&
     /^\d{4}-\d{2}-\d{2}$/.test(dateOrYear)
@@ -11,7 +11,7 @@ export function dateIsValid(dateOrYear, month, day) {
     dateMonth = parseInt(m, 10);
     dateDay = parseInt(d, 10);
   }
-  // ✅ Caso 2: ano, mês e dia passados separadamente
+  // se a string vir ano, mês e dia separado
   else if (
     (typeof dateOrYear === "number" || typeof dateOrYear === "string") &&
     (typeof month === "number" || typeof month === "string") &&
@@ -24,7 +24,7 @@ export function dateIsValid(dateOrYear, month, day) {
     return false;
   }
 
-  // Validação do mês e do dia
+  // valida do mes e do dia
   if (dateMonth < 1 || dateMonth > 12 || dateDay < 1) {
     return false;
   }

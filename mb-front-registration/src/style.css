@@ -58,6 +58,46 @@ span {
   margin: 0;
 }
 
+.radio-group {
+  margin: 1rem 0; /* 16px */
+  display: flex;
+  justify-content: space-between;
+  label {
+    width: fit-content;
+
+    input {
+      margin-right: 0.2rem; /* 3.2px */
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      margin: 0.5rem 0; /* 8px */
+    }
+  }
+
+  .submit {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  button {
+    margin-top: 1rem; /* 16px */
+  }
+}
+
 .btn-primary {
   background-color: var(--primary-color);
   color: var(--light-color);

@@ -31,7 +31,7 @@ export function isDateValid(dateOrYear, month, day) {
 
   const daysOfMonth = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-  // Verifica ano bissexto
+  // ano bissexto
   if (year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0)) {
     daysOfMonth[2] = 29;
   }

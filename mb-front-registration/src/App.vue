@@ -1,7 +1,7 @@
 <script setup>
-// import WelcomeView from "./pages/WelcomeView.vue";
+import WelcomeView from "./pages/WelcomeView.vue";
 // import ReviewInfos from "@/pages/ReviewInfosView.vue";
-import PhysicPersonView from "./pages/PhysicPersonView.vue";
+// import PhysicPersonView from "./pages/PhysicPersonView.vue";
 // import JuridicalPersonView from "./pages/JuridicalPersonView.vue";
 </script>
 
@@ -14,9 +14,3 @@ import PhysicPersonView from "./pages/PhysicPersonView.vue";
     <ReviewInfos />
   </div>
 </template>
-
-<style scoped>
-.container {
-  max-width: max-content;
-}
-</style>

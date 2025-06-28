@@ -1,10 +1,7 @@
 export function isAllFieldsFilled(formData) {
-  for (const key in formData) {
-    const value = formData[key];
+  console.log(formData);
 
-    if (typeof value === "string" && value.trim() === "") {
-      return false;
-    }
-  }
-  return true;
+  return Object.values(formData).every((value) => {
+    return typeof value === "string" ? value.trim() !== "" : true;
+  });
 }

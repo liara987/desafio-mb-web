@@ -1,18 +1,18 @@
 <script setup>
 import { defineEmits, ref } from "vue";
-import { maskPhone } from "../utils/validateTelephone";
+import { isPhoneValid } from "../utils/validateTelephone";
 
 const emit = defineEmits(["get-telephone"]);
 const isBlurred = ref(false);
 const telephone = ref("");
 
-function handleInput(e) {
-  telephone.value = maskPhone(e.target.value);
-}
-
 function handleBlur() {
-  isBlurred.value = true;
-  emit("get-telephone", telephone.value);
+  if (isPhoneValid(telephone.value)) {
+    emit("get-telephone", telephone.value);
+    isBlurred.value = false;
+  } else {
+    isBlurred.value = true;
+  }
 }
 </script>
 
@@ -20,18 +20,19 @@ function handleBlur() {
   <label class="telephone">
     <span>Telefone</span>
     <input
-      id="telephone"
-      :class="['input-default']"
-      type="text"
       required
-      v-model="telephone"
+      id="telephone"
+      type="tel"
+      maxlength="11"
       name="telephone"
-      @input="handleInput"
+      pattern="\d{10,11}"
+      inputmode="numeric"
+      v-model="telephone"
       @blur="handleBlur"
       @focus="isBlurred = false"
-      maxlength="14"
+      :class="['input-default', isBlurred ? 'input-invalid' : '']"
     />
-    <span v-if="isBlurred && telephone.length < 14" class="error-message">
+    <span v-if="isBlurred" class="error-message">
       Por favor preencha o Telefone corretamente
     </span>
   </label>

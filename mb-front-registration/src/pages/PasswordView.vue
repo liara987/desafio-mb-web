@@ -1,6 +1,7 @@
 <script setup>
-import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
 import { reactive } from "vue";
+
+import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
 
 const formData = reactive({
   step: 3,

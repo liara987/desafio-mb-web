@@ -1,6 +1,8 @@
 <script setup>
+import { computed, reactive, ref } from "vue";
+
 import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
-import { computed, reactive } from "vue";
+
 import InputCpf from "../components/InputCpf.vue";
 import InputDate from "../components/InputDate.vue";
 import InputTelephone from "../components/InputTelephone.vue";
@@ -13,6 +15,8 @@ const formData = reactive({
   telephone: "",
   type: "",
 });
+
+const isBlurred = ref(false);
 
 const isFormValid = computed(() => isAllFieldsFilled(formData));
 
@@ -29,6 +33,17 @@ function handleTelephone(phone) {
 function handleDate(date) {
   formData.birthDay = date;
   console.log("handleDate: ", date);
+}
+
+function isNameFilled() {
+  if (formData.name != "") {
+    // emit("get-name", formData.name);
+    console.log(formData.name);
+
+    isBlurred.value = false;
+  } else {
+    isBlurred.value = true;
+  }
 }
 
 function sendForm() {
@@ -48,12 +63,16 @@ function sendForm() {
       <label class="name">
         <span>Nome</span>
         <input
-          id="name"
-          class="input-default"
-          type="text"
           required
-          v-model="formData.name"
+          id="name"
+          type="text"
+          v-model.trim="formData.name"
+          @blur="isNameFilled"
+          :class="['input-default', isBlurred ? 'input-invalid' : '']"
         />
+        <span v-if="isBlurred" class="error-message">
+          Por favor preencha o Nome corretamente
+        </span>
       </label>
 
       <InputCpf @get-cpf="handleCpf" />

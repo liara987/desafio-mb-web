@@ -1,6 +1,9 @@
 <script setup>
-import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
 import { reactive } from "vue";
+
+import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
+import { isEmailValid } from "../utils/validateEmail";
+
 import InputEmail from "../components/InputEmail.vue";
 
 const formData = reactive({
@@ -13,8 +16,8 @@ function sendForm() {
   console.log(formData);
 }
 
-function handleEmail(value) {
-  console.log("handleEmail: ", value);
+function handleEmail(email) {
+  formData.email = email;
 }
 </script>
 
@@ -30,11 +33,21 @@ function handleEmail(value) {
 
       <div class="radio-group">
         <label>
-          <input type="radio" name="type" v-model="formData.type" value="pf" />
+          <input
+            type="radio"
+            name="type"
+            v-model="formData.type"
+            value="pessoa-fisica"
+          />
           <span>Pessoa física</span>
         </label>
         <label>
-          <input type="radio" name="type" v-model="formData.type" value="pj" />
+          <input
+            type="radio"
+            name="type"
+            v-model="formData.type"
+            value="pessoa-juridica"
+          />
           <span>Pessoa jurídica</span>
         </label>
       </div>

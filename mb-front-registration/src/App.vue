@@ -1,9 +1,22 @@
 <script setup>
-import Welcome from "@/components/Welcome.vue";
+// import WelcomeView from "./pages/WelcomeView.vue";
+// import ReviewInfos from "@/pages/ReviewInfosView.vue";
+import PhysicPersonView from "./pages/PhysicPersonView.vue";
+// import JuridicalPersonView from "./pages/JuridicalPersonView.vue";
 </script>
 
 <template>
-  <Welcome />
+  <div class="container">
+    <WelcomeView />
+    <PhysicPersonView />
+    <JuridicalPersonView />
+    <Password />
+    <ReviewInfos />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container {
+  max-width: max-content;
+}
+</style>

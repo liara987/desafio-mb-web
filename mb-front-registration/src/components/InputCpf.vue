@@ -1,18 +1,18 @@
 <script setup>
 import { defineEmits, ref } from "vue";
-import { maskCpf } from "../utils/validateCpf";
+import { cpfIsValid } from "../utils/validateCpf";
 
 const emit = defineEmits(["get-cpf"]);
 const isBlurred = ref(false);
 const cpf = ref("");
 
 function handleBlur() {
-  isBlurred.value = true;
-  emit("get-cpf", cpf.value);
-}
-
-function handleInput(e) {
-  cpf.value = maskCpf(e.target.value);
+  if (cpfIsValid(cpf.value)) {
+    emit("get-cpf", cpf.value);
+    isBlurred.value = false;
+  } else {
+    isBlurred.value = true;
+  }
 }
 </script>
 
@@ -20,21 +20,18 @@ function handleInput(e) {
   <label class="cpf">
     <span>CPF</span>
     <input
-      id="cpf"
-      :class="['input-default']"
-      type="text"
       required
-      v-model="cpf"
+      id="cpf"
+      type="text"
       name="cpf"
-      @input="handleInput"
+      maxlength="14"
+      v-model="cpf"
       @blur="handleBlur"
       @focus="isBlurred = false"
-      maxlength="14"
+      :class="['input-default', isBlurred ? 'input-invalid' : '']"
     />
-    <span v-if="isBlurred && cpf.length < 14" class="error-message">
-      Por favor preencha o CPF corretamente
+    <span v-if="isBlurred" class="error-message">
+      Por favor insira um CPF valido
     </span>
   </label>
 </template>
-
-<style scoped></style>

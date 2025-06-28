@@ -1,24 +1,22 @@
 <script setup>
 import { computed, defineEmits, ref } from "vue";
-import { maskDate } from "../utils/validateDate";
+import { dateIsValid } from "../utils/validateDate";
 
 const emit = defineEmits(["get-date"]);
 const isBlurred = ref(false);
 const date = ref("");
 
 const isFieldInvalid = computed(() => {
-  return isBlurred.value && !isDateValid(date.value);
+  return isBlurred.value && !dateIsValid(date.value);
 });
 
 function handleBlur() {
-  isBlurred.value = true;
-  date.value = maskDate(date.value);
-
-  emit("get-date", date.value);
-}
-
-function handleInput(e) {
-  date.value = maskDate(e.target.value);
+  if (dateIsValid(date.value)) {
+    emit("get-date", date.value);
+    isBlurred.value = false;
+  } else {
+    isBlurred.value = true;
+  }
 }
 </script>
 
@@ -26,21 +24,17 @@ function handleInput(e) {
   <label class="date">
     <span>Data de Nascimento</span>
     <input
-      id="date"
       required
-      type="text"
+      id="date"
+      type="date"
       name="date"
       v-model="date"
       @blur="handleBlur"
-      @input="handleInput"
       @focus="isBlurred = false"
       :class="['input-default', isFieldInvalid ? 'input-invalid' : '']"
-      :maxlength="10"
     />
-    <span v-if="isBlurred && date.length < 10" class="error-message">
+    <span v-if="isBlurred" class="error-message">
       Por favor preencha a Data de Nascimento corretamente
     </span>
   </label>
 </template>
-
-<style scoped></style>

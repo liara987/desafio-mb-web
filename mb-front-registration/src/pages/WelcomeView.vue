@@ -7,7 +7,7 @@ import { isEmailValid } from "../utils/validateEmail";
 const formData = reactive({
   step: 1,
   email: "",
-  personType: "", // pessoa física ou jurídica = pf || pj
+  personType: "", // pessoa física ou jurídica
 });
 
 const emit = defineEmits(["get-email"]);
@@ -23,7 +23,7 @@ function handleBlur() {
 }
 
 function sendForm() {
-  console.log(formData);
+  console.log("sendForm: ", formData);
 }
 </script>
 
@@ -42,7 +42,7 @@ function sendForm() {
           id="email"
           type="email"
           name="email"
-          v-model="formData.email"
+          v-model.trim="formData.email"
           @blur="handleBlur"
           @focus="isBlurred = false"
           :class="['input-default', isBlurred ? 'input-invalid' : '']"
@@ -85,22 +85,3 @@ function sendForm() {
     </form>
   </div>
 </template>
-
-<style scoped>
-.radio-group {
-  margin: 1rem 0; /* 16px */
-  display: flex;
-  justify-content: space-between;
-  label {
-    width: fit-content;
-
-    input {
-      margin-right: 0.2rem; /* 3.2px */
-    }
-
-    &:last-child {
-      margin-right: 0;
-    }
-  }
-}
-</style>

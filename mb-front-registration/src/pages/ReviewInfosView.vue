@@ -16,7 +16,7 @@ const formData = reactive({
 });
 
 function sendForm() {
-  console.log(formData);
+  console.log("sendForm: ", formData);
 }
 </script>
 
@@ -119,28 +119,3 @@ function sendForm() {
     </form>
   </div>
 </template>
-
-<style scoped>
-.form {
-  display: flex;
-  flex-direction: column;
-
-  label {
-    display: flex;
-    flex-direction: column;
-
-    span {
-      margin: 0.5rem 0; /* 8px */
-    }
-  }
-
-  .submit {
-    display: flex;
-    gap: 1.5rem;
-  }
-
-  button {
-    margin-top: 1rem; /* 16px */
-  }
-}
-</style>

@@ -1,23 +1,29 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
 import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
 import { isEmailValid } from "../utils/validateEmail";
 
-import InputEmail from "../components/InputEmail.vue";
-
 const formData = reactive({
   step: 1,
   email: "",
-  type: "", // pessoa física ou jurídica = pf || pj
+  personType: "", // pessoa física ou jurídica = pf || pj
 });
+
+const emit = defineEmits(["get-email"]);
+const isBlurred = ref(false);
+
+function handleBlur() {
+  if (isEmailValid(formData.email)) {
+    emit("get-email", formData.email);
+    isBlurred.value = false;
+  } else {
+    isBlurred.value = true;
+  }
+}
 
 function sendForm() {
   console.log(formData);
-}
-
-function handleEmail(email) {
-  formData.email = email;
 }
 </script>
 
@@ -29,14 +35,29 @@ function handleEmail(email) {
     <h1 class="title">Seja bem vindo(a)</h1>
 
     <form @submit.prevent="sendForm">
-      <InputEmail @get-email="handleEmail" />
+      <label class="email">
+        <span>Endereço de e-mail</span>
+        <input
+          required
+          id="email"
+          type="email"
+          name="email"
+          v-model="formData.email"
+          @blur="handleBlur"
+          @focus="isBlurred = false"
+          :class="['input-default', isBlurred ? 'input-invalid' : '']"
+        />
+        <span v-if="isBlurred" class="error-message">
+          Por favor preencha o email corretamente
+        </span>
+      </label>
 
       <div class="radio-group">
         <label>
           <input
             type="radio"
             name="type"
-            v-model="formData.type"
+            v-model="formData.personType"
             value="pessoa-fisica"
           />
           <span>Pessoa física</span>
@@ -45,7 +66,7 @@ function handleEmail(email) {
           <input
             type="radio"
             name="type"
-            v-model="formData.type"
+            v-model="formData.personType"
             value="pessoa-juridica"
           />
           <span>Pessoa jurídica</span>

@@ -3,7 +3,6 @@ import { computed, reactive } from "vue";
 
 import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
 import { isCpfValid } from "../utils/validateCpf";
-
 import { isDateValid } from "../utils/validateDate";
 import { isPhoneValid } from "../utils/validateTelephone";
 

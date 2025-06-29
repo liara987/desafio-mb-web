@@ -1,5 +1,5 @@
 :root {
-  font-family: Avenir, Arial, sans-serif;
+  font-family: "IBM Plex Sans", Avenir, Arial, sans-serif;
   font-weight: 400;
 
   /* variáveis de estilo */
@@ -21,6 +21,11 @@
   min-height: 100vh;
 }
 
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("assets/fonts/IBMPlexSans-Regular.ttf");
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -34,6 +39,8 @@ h1 {
 }
 
 button {
+  font-family: "IBM Plex Sans", Avenir, Arial, sans-serif;
+  font-weight: bold;
   padding: 0.5rem 1rem; /* 8px, 16px */
   border-radius: var(--radius);
   border: 1px solid var(--primary-color);
@@ -146,8 +153,8 @@ span {
 .error-message {
   font-weight: bold;
   color: red;
-  font-size: 0.5rem; /*8px */
-  margin-top: 0.3rem; /*4.8px */
+  font-size: 0.6rem; /* 9.6px */
+  margin-top: 0.3rem; /* 4.8px */
 }
 
 .input-invalid:not(:focus) {

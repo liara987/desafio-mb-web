@@ -9,8 +9,6 @@ import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
 import { isPasswordValid } from "@/utils/validatePassword";
 import { isPhoneValid } from "@/utils/validateTelephone";
 
-const selectedType = "pessoa-juridica"; // ou "pessoa-juridica"
-
 const emit = defineEmits(["complete"]);
 
 const props = defineProps({
@@ -29,7 +27,6 @@ const hasErrors = computed(() => {
 function createFormData(typePerson) {
   return reactive({
     step: 4,
-    type: typePerson,
     email: "",
     telephone: "",
     password: "",
@@ -142,8 +139,28 @@ function handleGoBack() {
   emit("complete", "PASSWORD", formData);
 }
 
-function sendForm() {
-  console.log("sendForm: ", formData);
+async function sendForm() {
+  try {
+    const response = await fetch("http://localhost:3000/registration", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Erro ao cadastrar: " + errorData.error);
+      return;
+    }
+
+    const result = await response.json();
+    emit("complete", "SUCCESS_REGISTRATION", result);
+  } catch (err) {
+    emit("complete", "SERVER_ERROR", formData);
+    console.error("Erro ao registrar usuário: ", err);
+  }
 }
 
 onMounted(() => {
@@ -191,7 +208,7 @@ onMounted(() => {
         </span>
       </label>
 
-      <template v-if="formData.type === 'pessoa-fisica'">
+      <template v-if="formData.personType === 'pessoa-fisica'">
         <label class="name">
           <span>Nome</span>
           <input

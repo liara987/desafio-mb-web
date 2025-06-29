@@ -1,8 +1,20 @@
 <script setup>
-import { reactive, ref } from "vue";
+import { onMounted, reactive } from "vue";
 
+import { isEmailValid } from "@/utils/validateEmail";
 import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
-import { isEmailValid } from "../utils/validateEmail";
+
+const emit = defineEmits(["complete"]);
+
+const error = reactive({
+  email: false,
+});
+
+const props = defineProps({
+  title: "",
+  step: "",
+  data: {},
+});
 
 const formData = reactive({
   step: 1,
@@ -10,21 +22,26 @@ const formData = reactive({
   personType: "", // pessoa física ou jurídica
 });
 
-const emit = defineEmits(["get-email"]);
-const isBlurred = ref(false);
-
-function handleBlur() {
+function handleEmailBlur() {
   if (isEmailValid(formData.email)) {
-    emit("get-email", formData.email);
-    isBlurred.value = false;
+    error.email = false;
   } else {
-    isBlurred.value = true;
+    error.email = true;
   }
 }
 
 function sendForm() {
-  console.log("sendForm: ", formData);
+  if (formData.personType === "pessoa-fisica") {
+    emit("complete", "PHYSIC_PERSON", formData);
+  } else {
+    emit("complete", "JURIDICAL_PERSON", formData);
+  }
 }
+
+onMounted(() => {
+  formData.email = props.data.email;
+  formData.personType = props.data.personType;
+});
 </script>
 
 <template>
@@ -32,7 +49,7 @@ function sendForm() {
     <span class="step">
       Etapa <span class="hilight-text">{{ formData.step }}</span> de 4
     </span>
-    <h1 class="title">Seja bem vindo(a)</h1>
+    <h1 class="title">{{ props.title }}</h1>
 
     <form @submit.prevent="sendForm">
       <label class="email">
@@ -43,11 +60,11 @@ function sendForm() {
           type="email"
           name="email"
           v-model.trim="formData.email"
-          @blur="handleBlur"
-          @focus="isBlurred = false"
-          :class="['input-default', isBlurred ? 'input-invalid' : '']"
+          @blur="handleEmailBlur"
+          @focus="error.email = false"
+          :class="['input-default', error.email ? 'input-invalid' : '']"
         />
-        <span v-if="isBlurred" class="error-message">
+        <span v-if="error.email" class="error-message">
           Por favor preencha o email corretamente
         </span>
       </label>
@@ -57,8 +74,8 @@ function sendForm() {
           <input
             type="radio"
             name="type"
-            v-model="formData.personType"
             value="pessoa-fisica"
+            v-model="formData.personType"
           />
           <span>Pessoa física</span>
         </label>
@@ -66,8 +83,8 @@ function sendForm() {
           <input
             type="radio"
             name="type"
-            v-model="formData.personType"
             value="pessoa-juridica"
+            v-model="formData.personType"
           />
           <span>Pessoa jurídica</span>
         </label>
@@ -75,7 +92,7 @@ function sendForm() {
 
       <button
         type="submit"
-        class="btn-secondary"
+        class="btn-primary"
         :disabled="
           !isAllFieldsFilled(formData) || !isEmailValid(formData.email)
         "

@@ -1,15 +1,21 @@
 <script setup>
-import { computed, reactive } from "vue";
+import { computed, onMounted, reactive } from "vue";
 
+import { isCnpjValid } from "@/utils/validateCnpj";
+import { isDateValid } from "@/utils/validateDate";
 import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
-import { isCnpjValid } from "../utils/validateCnpj";
-import { isDateValid } from "../utils/validateDate";
-import { isPhoneValid } from "../utils/validateTelephone";
+import { isPhoneValid } from "@/utils/validateTelephone";
 
-const emit = defineEmits(["finish"]);
+const emit = defineEmits(["complete"]);
+
+const props = defineProps({
+  title: "",
+  step: "",
+  data: {},
+});
 
 const errors = reactive({
-  name: false,
+  companyName: false,
   cnpj: false,
   openDate: false,
   telephone: false,
@@ -59,10 +65,22 @@ function handleTelephoneBlur() {
   }
 }
 
-function sendForm() {
-  emit("finish", formData);
-  console.log("sendForm: ", formData);
+function handleGoBack() {
+  emit("complete", "WELCOME", formData);
 }
+
+function sendForm() {
+  emit("complete", "PASSWORD", formData);
+}
+
+onMounted(() => {
+  formData.email = props.data.email;
+  formData.personType = props.data.personType;
+  formData.companyName = props.data.companyName;
+  formData.cnpj = props.data.cnpj;
+  formData.openDate = props.data.openDate;
+  formData.telephone = props.data.telephone;
+});
 </script>
 
 <template>
@@ -71,7 +89,7 @@ function sendForm() {
       Etapa <span class="hilight-text">{{ formData.step }}</span> de 4
     </span>
 
-    <h1 class="title">Pessoa Jurídica</h1>
+    <h1 class="title">{{ props.title }}</h1>
 
     <form @submit.prevent="sendForm" class="form">
       <label class="razao-social">
@@ -94,9 +112,9 @@ function sendForm() {
         <span>CNPJ</span>
         <input
           required
-          id="cpf"
+          id="cnpj"
           type="text"
-          name="cpf"
+          name="cnpj"
           maxlength="18"
           v-model.trim="formData.cnpj"
           @blur="handleCnpjBlur"
@@ -133,7 +151,6 @@ function sendForm() {
           type="tel"
           maxlength="11"
           name="telephone"
-          pattern="\d{10,11}"
           inputmode="numeric"
           v-model="formData.telephone"
           @blur="handleTelephoneBlur"
@@ -146,7 +163,7 @@ function sendForm() {
       </label>
 
       <div class="submit">
-        <button class="btn-secondary">Voltar</button>
+        <button class="btn-secondary" @click="handleGoBack">Voltar</button>
 
         <button
           type="submit"

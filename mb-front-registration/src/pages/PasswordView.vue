@@ -1,10 +1,16 @@
 <script setup>
-import { computed, reactive } from "vue";
+import { computed, onMounted, reactive } from "vue";
 
 import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
-import { isPasswordValid } from "../utils/validatePassword";
+import { isPasswordValid } from "@/utils/validatePassword";
 
-const emit = defineEmits(["finish"]);
+const emit = defineEmits(["complete"]);
+
+const props = defineProps({
+  title: "",
+  step: "",
+  data: {},
+});
 
 const errors = reactive({
   name: false,
@@ -16,6 +22,7 @@ const errors = reactive({
 const formData = reactive({
   step: 3,
   password: "",
+  personType: "",
 });
 
 const hasErrors = computed(() => {
@@ -30,10 +37,22 @@ function handlePasswordBlur() {
   }
 }
 
-function sendForm() {
-  emit("finish", formData);
-  console.log("sendForm: ", formData);
+function handleGoBack() {
+  if (formData.personType === "pessoa-fisica") {
+    emit("complete", "PHYSIC_PERSON", formData);
+  } else {
+    emit("complete", "JURIDICAL_PERSON", formData);
+  }
 }
+
+function sendForm() {
+  emit("complete", "REVIEW_INFOS", formData);
+}
+
+onMounted(() => {
+  formData.password = props.data.password;
+  formData.personType = props.data.personType;
+});
 </script>
 
 <template>
@@ -42,7 +61,7 @@ function sendForm() {
       Etapa <span class="hilight-text">{{ formData.step }}</span> de 4
     </span>
 
-    <h1 class="title">Senha de acesso</h1>
+    <h1 class="title">{{ props.title }}</h1>
 
     <form @submit.prevent="sendForm" class="form">
       <label class="password">
@@ -70,7 +89,7 @@ function sendForm() {
       </label>
 
       <div class="submit">
-        <button class="btn-secondary">Voltar</button>
+        <button class="btn-secondary" @click="handleGoBack">Voltar</button>
 
         <button
           type="submit"

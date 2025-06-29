@@ -1,12 +1,18 @@
 <script setup>
-import { computed, reactive } from "vue";
+import { computed, onMounted, reactive } from "vue";
 
+import { isCpfValid } from "@/utils/validateCpf";
+import { isDateValid } from "@/utils/validateDate";
 import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
-import { isCpfValid } from "../utils/validateCpf";
-import { isDateValid } from "../utils/validateDate";
-import { isPhoneValid } from "../utils/validateTelephone";
+import { isPhoneValid } from "@/utils/validateTelephone";
 
-const emit = defineEmits(["finish"]);
+const emit = defineEmits(["complete"]);
+
+const props = defineProps({
+  title: "",
+  step: "",
+  data: {},
+});
 
 const errors = reactive({
   name: false,
@@ -21,6 +27,7 @@ const formData = reactive({
   cpf: "",
   birthDay: "",
   telephone: "",
+  personType: "",
 });
 
 const hasErrors = computed(() => {
@@ -59,10 +66,22 @@ function handleTelephoneBlur() {
   }
 }
 
-function sendForm() {
-  emit("finish", formData);
-  console.log("sendForm: ", formData);
+function handleGoBack() {
+  emit("complete", "WELCOME", formData);
 }
+
+function sendForm() {
+  emit("complete", "PASSWORD", formData);
+}
+
+onMounted(() => {
+  formData.email = props.data.email;
+  formData.name = props.data.name;
+  formData.cpf = props.data.cpf;
+  formData.birthDay = props.data.birthDay;
+  formData.telephone = props.data.telephone;
+  formData.personType = props.data.personType;
+});
 </script>
 
 <template>
@@ -71,7 +90,7 @@ function sendForm() {
       Etapa <span class="hilight-text">{{ formData.step }}</span> de 4
     </span>
 
-    <h1 class="title">Pessoa Física</h1>
+    <h1 class="title">{{ props.title }}</h1>
 
     <form @submit.prevent="sendForm" class="form">
       <label class="name">
@@ -133,7 +152,6 @@ function sendForm() {
           type="tel"
           maxlength="11"
           name="telephone"
-          pattern="\d{10,11}"
           inputmode="numeric"
           v-model="formData.telephone"
           @blur="handleTelephoneBlur"
@@ -146,7 +164,7 @@ function sendForm() {
       </label>
 
       <div class="submit">
-        <button class="btn-secondary">Voltar</button>
+        <button class="btn-secondary" @click="handleGoBack">Voltar</button>
 
         <button
           type="submit"

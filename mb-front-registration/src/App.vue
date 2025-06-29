@@ -8,6 +8,7 @@ import ReviewInfosView from "@/pages/ReviewInfosView.vue";
 import SuccessRegistrationView from "@/pages/SuccessRegistrationView.vue";
 import WelcomeView from "@/pages/WelcomeView.vue";
 import PasswordView from "./pages/PasswordView.vue";
+import ServerErrorView from "./pages/ServerErrorView.vue";
 
 const steps = Object.freeze({
   WELCOME: {
@@ -37,8 +38,11 @@ const steps = Object.freeze({
   },
   SUCCESS_REGISTRATION: {
     key: "registration_success",
-    title: "Dados cadastrados com sucesso",
     component: markRaw(SuccessRegistrationView),
+  },
+  SERVER_ERROR: {
+    key: "server_error",
+    component: markRaw(ServerErrorView),
   },
 });
 

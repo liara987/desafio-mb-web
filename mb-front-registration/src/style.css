@@ -134,7 +134,8 @@ span {
   border: 1px solid var(--text-color);
   border-radius: var(--radius);
   transition: border-color 0.3s;
-  width: 300px;
+  min-width: 18.75rem; /* 300px */
+  width: 100%;
 
   &:focus {
     outline: none;
@@ -143,6 +144,7 @@ span {
 }
 
 .error-message {
+  font-weight: bold;
   color: red;
   font-size: 0.5rem; /*8px */
   margin-top: 0.3rem; /*4.8px */
@@ -150,6 +152,25 @@ span {
 
 .input-invalid:not(:focus) {
   border-color: red;
+  animation: shake 0.2s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-1px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .hilight-text {

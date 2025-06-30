@@ -152,6 +152,10 @@ span {
   animation: shake 0.2s ease-in-out;
 }
 
+.hilight-text {
+  color: $primary-color;
+}
+
 @keyframes shake {
   0% {
     transform: translateX(0);
@@ -168,8 +172,4 @@ span {
   100% {
     transform: translateX(0);
   }
-}
-
-.hilight-text {
-  color: $primary-color;
 }

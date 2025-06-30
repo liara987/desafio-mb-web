@@ -1,13 +1,4 @@
-/* variáveis de estilo */
-$primary-color: #ff9900;
-$disabled-color: #cccccc;
-$text-color: #242424;
-$light-color: #ffff;
-$error: #e84522;
-$font-size-small: 0.5rem; // 8px
-$font-size-base: 1rem; // 16px
-$font-size-large: 1.5rem; // 24px
-$radius: 0.3rem; // 4.8px
+@import "./variables";
 
 @font-face {
   font-family: "IBM Plex Sans";

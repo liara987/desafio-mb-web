@@ -21,7 +21,7 @@ function handleGoBack() {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 .error-page {
   display: flex;
   flex-direction: column;

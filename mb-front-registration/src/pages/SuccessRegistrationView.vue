@@ -32,7 +32,7 @@ function handleGoBackToHome() {
 }
 </script>
 
-<style>
+<style lang="scss">
 .success-screen {
   display: flex;
   justify-content: center;

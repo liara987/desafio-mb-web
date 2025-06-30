@@ -43,6 +43,6 @@ function handleGoBack() {
 
 .subtitle {
   font-size: 1rem; /** 16px */
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem; /** 24px */
 }
 </style>

@@ -1,16 +1,17 @@
-:root {
-  font-family: "IBM Plex Sans", Avenir, Arial, sans-serif;
-  font-weight: 400;
+/* variáveis de estilo */
+$primary-color: #ff9900;
+$disabled-color: #cccccc;
+$text-color: #242424;
+$light-color: #ffff;
+$font-size-small: 0.5rem; // 8px
+$font-size-base: 1rem; // 16px
+$font-size-large: 1.5rem; // 24px
+$radius: 0.3rem; // 4.8px
+$error: #e84522;
 
-  /* variáveis de estilo */
-  --primary-color: #ff9900;
-  --disabled-color: #cccccc;
-  --text-color: #242424;
-  --light-color: #ffff;
-  --font-size-small: 0.5rem; /* 8px */
-  --font-size-base: 1rem; /* 16px */
-  --font-size-large: 1.5rem; /* 24px */
-  --radius: 0.3rem; /* 4.8px */
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("assets/fonts/IBMPlexSans-Regular.ttf");
 }
 
 #app {
@@ -21,34 +22,32 @@
   min-height: 100vh;
 }
 
-@font-face {
-  font-family: "IBM Plex Sans";
-  src: url("assets/fonts/IBMPlexSans-Regular.ttf");
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: var(--text-color);
+  color: $text-color;
+  font-family: "IBM Plex Sans", Avenir, Arial, sans-serif;
+  font-weight: 400;
 }
 
 h1 {
-  font-size: var(--font-size-large);
+  font-size: $font-size-large;
   margin: 1rem 0; /* 16px */
 }
 
 button {
-  font-family: "IBM Plex Sans", Avenir, Arial, sans-serif;
   font-weight: bold;
   padding: 0.5rem 1rem; /* 8px, 16px */
-  border-radius: var(--radius);
-  border: 1px solid var(--primary-color);
+  border-radius: $radius;
+  border: 1px solid $primary-color;
   cursor: pointer;
   width: 100%;
 
   &:disabled {
     cursor: not-allowed;
+    background-color: $disabled-color;
+    border-color: $disabled-color;
   }
 }
 
@@ -69,6 +68,7 @@ span {
   margin: 1rem 0; /* 16px */
   display: flex;
   justify-content: space-between;
+
   label {
     width: fit-content;
 
@@ -106,59 +106,49 @@ span {
 }
 
 .btn-primary {
-  background-color: var(--primary-color);
-  color: var(--light-color);
+  background-color: $primary-color;
+  color: $light-color;
   transition: filter 0.3s;
 
   &:hover:enabled {
     filter: brightness(110%);
   }
-
-  &:disabled {
-    background-color: var(--disabled-color);
-    border-color: var(--disabled-color);
-  }
 }
 
 .btn-secondary {
   background-color: transparent;
-  color: var(--primary-color);
+  color: $primary-color;
   transition: background-color 0.3s, color 0.3s;
 
   &:hover:enabled {
-    background-color: var(--primary-color);
-    color: var(--light-color);
-  }
-
-  &:disabled {
-    color: var(--disabled-color);
-    border-color: var(--disabled-color);
+    background-color: $primary-color;
+    color: $light-color;
   }
 }
 
 .input-default {
   padding: 0.5rem; /* 8px */
-  border: 1px solid var(--text-color);
-  border-radius: var(--radius);
+  border: 1px solid $text-color;
+  border-radius: $radius;
   transition: border-color 0.3s;
   min-width: 18.75rem; /* 300px */
   width: 100%;
 
   &:focus {
     outline: none;
-    border-color: var(--primary-color);
+    border-color: $primary-color;
   }
 }
 
 .error-message {
   font-weight: bold;
-  color: red;
+  color: $error;
   font-size: 0.6rem; /* 9.6px */
   margin-top: 0.3rem; /* 4.8px */
 }
 
 .input-invalid:not(:focus) {
-  border-color: red;
+  border-color: $error;
   animation: shake 0.2s ease-in-out;
 }
 
@@ -181,5 +171,5 @@ span {
 }
 
 .hilight-text {
-  color: var(--primary-color);
+  color: $primary-color;
 }

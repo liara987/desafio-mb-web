@@ -33,10 +33,10 @@ function handleGoBackToHome() {
 </script>
 
 <style lang="scss">
+@import "@/assets/scss/mixins";
+
 .success-screen {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  @include flex-center(column);
   text-align: center;
   max-width: 30rem; /** 480px */
   width: 100%;

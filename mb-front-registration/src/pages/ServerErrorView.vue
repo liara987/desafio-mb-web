@@ -22,11 +22,10 @@ function handleGoBack() {
 </script>
 
 <style lang="scss">
+@import "@/assets/scss/mixins";
+
 .error-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  @include flex-center(column);
   padding: 2rem; /** 32px */
   margin: 0 auto;
 }

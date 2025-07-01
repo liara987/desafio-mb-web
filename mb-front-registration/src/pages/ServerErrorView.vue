@@ -5,7 +5,9 @@
       Não foi possível concluir sua solicitação no momento.
     </p>
     <img :src="iconError404" alt="Erro no servidor" class="error-image" />
-    <button @click="handleGoBack" class="btn-primary">Tentar novamente</button>
+    <button @click="handleGoBack" class="button-orange">
+      Tentar novamente
+    </button>
   </div>
 </template>
 

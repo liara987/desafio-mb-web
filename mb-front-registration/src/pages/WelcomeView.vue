@@ -92,7 +92,7 @@ onMounted(() => {
 
       <button
         type="submit"
-        class="btn-primary"
+        class="button-orange"
         :disabled="
           !isAllFieldsFilled(formData) || !isEmailValid(formData.email)
         "

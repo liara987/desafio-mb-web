@@ -1,5 +1,5 @@
 <template>
-  <div class="success-screen">
+  <div class="success-page">
     <h2 class="title">
       Olá,
       <span class="hilight-text">
@@ -13,7 +13,7 @@
       {{ props.data.message }}
     </h2>
     <p class="subtitle">Seja bem-vindo(a) à nossa plataforma.</p>
-    <button class="btn-primary" @click="handleGoBackToHome">
+    <button class="button-orange" @click="handleGoBackToHome">
       Cadastrar novo usuário
     </button>
   </div>
@@ -35,7 +35,7 @@ function handleGoBackToHome() {
 <style lang="scss">
 @import "@/assets/scss/mixins";
 
-.success-screen {
+.success-page {
   @include flex-center(column);
   text-align: center;
   max-width: 30rem; /** 480px */

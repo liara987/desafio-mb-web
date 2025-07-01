@@ -29,7 +29,7 @@ button {
   font-weight: bold;
   padding: 0.5rem 1rem; /* 8px, 16px */
   border-radius: $radius;
-  border: 1px solid $primary-color;
+  border: 1px solid $orange-color;
   width: 100%;
   cursor: pointer;
 
@@ -91,8 +91,8 @@ span {
   }
 }
 
-.btn-primary {
-  background-color: $primary-color;
+.button-orange {
+  background-color: $orange-color;
   color: $light-color;
   transition: filter 0.3s;
 
@@ -101,13 +101,13 @@ span {
   }
 }
 
-.btn-secondary {
+.button-outlined {
   background-color: transparent;
-  color: $primary-color;
+  color: $orange-color;
   transition: background-color 0.3s, color 0.3s;
 
   &:hover:enabled {
-    background-color: $primary-color;
+    background-color: $orange-color;
     color: $light-color;
   }
 }
@@ -122,24 +122,24 @@ span {
 
   &:focus {
     outline: none;
-    border-color: $primary-color;
+    border-color: $orange-color;
   }
 }
 
 .error-message {
   font-weight: bold;
-  color: $error;
+  color: $error-color;
   font-size: 0.6rem; /* 9.6px */
   margin-top: 0.3rem; /* 4.8px */
 }
 
 .input-invalid:not(:focus) {
-  border-color: $error;
+  border-color: $error-color;
   animation: shake 0.2s ease-in-out;
 }
 
 .hilight-text {
-  color: $primary-color;
+  color: $orange-color;
 }
 
 @keyframes shake {

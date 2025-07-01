@@ -163,11 +163,11 @@ onMounted(() => {
       </label>
 
       <div class="submit">
-        <button class="btn-secondary" @click="handleGoBack">Voltar</button>
+        <button class="button-outlined" @click="handleGoBack">Voltar</button>
 
         <button
           type="submit"
-          class="btn-primary"
+          class="button-orange"
           :disabled="!isAllFieldsFilled(formData) || hasErrors"
         >
           Continuar

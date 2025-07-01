@@ -5,9 +5,7 @@
       Não foi possível concluir sua solicitação no momento.
     </p>
     <img :src="iconError404" alt="Erro no servidor" class="error-image" />
-    <button @click="handleGoBack" class="btn-primary">
-      Voltar para o inicio
-    </button>
+    <button @click="handleGoBack" class="btn-primary">Tentar novamente</button>
   </div>
 </template>
 
@@ -17,7 +15,7 @@ import iconError404 from "../assets/images/error-404.png";
 const emit = defineEmits(["complete"]);
 
 function handleGoBack() {
-  emit("complete", "WELCOME");
+  emit("complete", "REVIEW_INFOS");
 }
 </script>
 

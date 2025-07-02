@@ -1,10 +1,15 @@
 const express = require("express");
+const path = require("path");
+
 const app = express();
 const cors = require("cors");
 const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
+
+// Serve arquivos estáticos da pasta dist
+app.use(express.static(path.join(__dirname, "dist")));
 
 function validateRegistration(data) {
   if (data.personType === "pessoa-fisica") {
@@ -21,6 +26,11 @@ function validateRegistration(data) {
 
   return null;
 }
+
+// Rota catch-all para retornar index.html para qualquer rota que não seja API
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
 app.post("/registration", (req, res) => {
   const validationError = validateRegistration(req.body);

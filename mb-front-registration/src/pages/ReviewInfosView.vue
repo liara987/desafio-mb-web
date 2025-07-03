@@ -9,6 +9,7 @@ import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
 import { isPasswordValid } from "@/utils/validatePassword";
 import { isPhoneValid } from "@/utils/validateTelephone";
 
+const api = import.meta.env.VITE_API_URL_BASE;
 const emit = defineEmits(["complete"]);
 
 const props = defineProps({
@@ -141,7 +142,7 @@ function handleGoBack() {
 
 async function sendForm() {
   try {
-    const response = await fetch("http://localhost:3000/registration", {
+    const response = await fetch(`${api}/registration`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

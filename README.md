@@ -84,6 +84,8 @@ node index.js
 
 ### Frontend
 
+Crie um arquivo .env com a variável de ambiente **VITE_API_URL_BASE=http://localhost:3000**
+
 ```bash
 cd mb-front-registration
 npm run dev
@@ -161,7 +163,8 @@ mb-front-registration/src/
 ├── pages/        # Views da aplicação (JuridicalPersonView, PasswordView, etc.)
 ├── utils/        # Validações (CPF, CNPJ, email, etc.)
 ├── App.vue       # Componente principal
-└── main.js       # Ponto de entrada
+├── main.js       # Ponto de entrada
+└── .env          # Variáveis de ambiente, URL API
 ```
 
 ---

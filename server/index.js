@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 // Serve arquivos estáticos da pasta dist
-app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "../dist")));
 
 function validateRegistration(data) {
   if (data.personType === "pessoa-fisica") {

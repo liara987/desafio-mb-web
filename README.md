@@ -2,14 +2,6 @@
 
 Projeto dividido em duas aplicações: um frontend com Vue 3 e Vite e um backend em node com Node.js e Express.
 
-## Estrutura do projeto
-
-```
-DESAFIO-MB-WEB
-├── mb-back-registration     # Backend (Nodejs + Express)
-└── mb-front-registration    # Frontend (Vue 3 + Vite)
-```
-
 ---
 
 ## Requisitos
@@ -21,7 +13,7 @@ DESAFIO-MB-WEB
 
 ## Dependências
 
-### Frontend (`mb-front-registration`)
+### Frontend
 
 #### Dependências:
 
@@ -35,7 +27,7 @@ DESAFIO-MB-WEB
 
 ---
 
-### Backend (`mb-back-registration`)
+### Backend
 
 #### Dependências:
 
@@ -58,14 +50,12 @@ cd DESAFIO-MB-WEB
 #### Backend
 
 ```bash
-cd mb-back-registration
 npm install
 ```
 
 #### Frontend
 
 ```bash
-cd ../mb-front-registration
 npm install
 ```
 
@@ -76,8 +66,7 @@ npm install
 ### Backend
 
 ```bash
-cd mb-back-registration
-node index.js
+node run server
 ```
 
 > O backend será executado na porta `3000`, isso pode ser configurado no `index.js`.
@@ -87,7 +76,6 @@ node index.js
 Crie um arquivo .env com a variável de ambiente **VITE_API_URL_BASE=http://localhost:3000**
 
 ```bash
-cd mb-front-registration
 npm run dev
 ```
 
@@ -100,7 +88,6 @@ npm run dev
 Para gerar a versão de produção do frontend, isso ira gerar uma pasta `/dist`:
 
 ```bash
-cd mb-front-registration
 npm run build
 ```
 
@@ -115,7 +102,7 @@ POST http://localhost:3000/registration
 Content-Type: application/json
 ```
 
-Para acessar a rota `GET` do backend coloque essa pasta dentro da pasta do backend `mb-front-registration`, e ao acessar a rota http://localhost/3000 a aplicação gerada pelo build devera aparecer
+Para acessar a rota `GET` do backend rode o build e ao acessar a rota http://localhost/3000 a aplicação gerada pelo build devera aparecer
 
 ```
 GET http://localhost:3000
@@ -158,24 +145,14 @@ O formato do JSON enviado varia de acordo com o tipo de pessoa selecionado:
 ## Estrutura do frontend
 
 ```
-mb-front-registration/src/
+src/
 ├── assets/       # Fontes, imagens e SCSS
+├── server/       # Backend em node
 ├── pages/        # Views da aplicação (JuridicalPersonView, PasswordView, etc.)
 ├── utils/        # Validações (CPF, CNPJ, email, etc.)
 ├── App.vue       # Componente principal
 ├── main.js       # Ponto de entrada
 └── .env          # Variáveis de ambiente, URL API
-```
-
----
-
-## Estrutura do backend
-
-```
-mb-back-registration/
-├── index.js          # Arquivo principal da API (Express)
-├── package.json      # Scripts e definição de dependências
-└── node_modules/     # Dependências instaladas
 ```
 
 ---

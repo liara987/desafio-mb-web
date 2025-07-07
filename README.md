@@ -47,13 +47,7 @@ cd DESAFIO-MB-WEB
 
 ### 2. Instale as dependências
 
-#### Backend
-
-```bash
-npm install
-```
-
-#### Frontend
+#### Frontend e Backend
 
 ```bash
 npm install

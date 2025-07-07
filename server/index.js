@@ -43,8 +43,6 @@ app.post("/registration", (req, res) => {
     return res.status(400).json({ error: validationError });
   }
 
-  console.log("Dados recebidos:", req.body);
-
   return res.status(201).json({
     message: "Seu cadastro foi realizado com sucesso!",
     data: req.body,

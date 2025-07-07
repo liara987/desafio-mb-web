@@ -87,7 +87,7 @@ onMounted(() => {
 <template>
   <div class="PhysicPerson">
     <span class="step">
-      Etapa <span class="hilight-text">{{ formData.step }}</span> de 4
+      Etapa <span class="highlight-text">{{ formData.step }}</span> de 4
     </span>
 
     <h1 class="title">{{ props.title }}</h1>

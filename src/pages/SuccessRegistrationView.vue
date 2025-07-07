@@ -2,7 +2,7 @@
   <div class="success-page">
     <h2 class="title">
       Olá,
-      <span class="hilight-text">
+      <span class="highlight-text">
         {{
           props.data.personType === "pessoa-fisica"
             ? props.data.name

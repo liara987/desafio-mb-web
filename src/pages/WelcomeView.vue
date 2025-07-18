@@ -1,23 +1,21 @@
 <script setup>
 import { onMounted, reactive } from "vue";
 
-import { validateField } from "@/utils/validators";
+import { useFieldValidation } from "../composables/fieldsValidation";
 import { fillFormData } from "../utils/fillFormData";
 import { createFormData, createProps } from "../utils/formFactory";
 
+const validationType = {
+  email: "email",
+};
+
 const emit = defineEmits(["complete"]);
-
-const error = reactive({
-  email: false,
-});
-
 const props = defineProps(createProps());
-
 const formData = reactive(createFormData());
-
-function handleEmailBlur() {
-  error.email = !validateField("email", formData.email);
-}
+const { errors, handleBlur, resetError, hasErrors } = useFieldValidation(
+  formData,
+  validationType
+);
 
 function sendForm() {
   if (formData.personType === "pessoa-fisica") {
@@ -48,11 +46,11 @@ onMounted(() => {
           type="email"
           name="email"
           v-model.trim="formData.email"
-          @blur="handleEmailBlur"
-          @focus="error.email = false"
-          :class="['input-default', error.email ? 'input-invalid' : '']"
+          @blur="() => handleBlur('email')"
+          @focus="() => resetError('email')"
+          :class="['input-default', errors.email ? 'input-invalid' : '']"
         />
-        <span v-if="error.email" class="error-message">
+        <span v-if="errors.email" class="error-message">
           Por favor preencha o email corretamente
         </span>
       </label>
@@ -81,7 +79,7 @@ onMounted(() => {
       <button
         type="submit"
         class="button-orange"
-        :disabled="formData.personType === undefined || error.email"
+        :disabled="formData.personType === undefined || hasErrors()"
       >
         Continuar
       </button>

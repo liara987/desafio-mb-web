@@ -1,41 +1,26 @@
 <script setup>
-import { computed, onMounted, reactive } from "vue";
+import { onMounted, reactive } from "vue";
 
+import { useFieldValidation } from "../composables/fieldsValidation";
 import { fillFormData } from "../utils/fillFormData";
-import {
-  createErrors,
-  createFormData,
-  createProps,
-} from "../utils/formFactory";
-import { validateField } from "../utils/validators";
+import { createFormData, createProps } from "../utils/formFactory";
+
+const validationType = {
+  email: "email",
+  cnpj: "cnpj",
+  telephone: "phone",
+  openDate: "date",
+  password: "password",
+  companyName: "empty",
+};
 
 const emit = defineEmits(["complete"]);
-
 const props = defineProps(createProps());
-
-const errors = reactive(createErrors("pessoa-juridica"));
-
 const formData = reactive(createFormData("pessoa-juridica", 2));
-
-const hasErrors = computed(() => {
-  return Object.values(errors).some((err) => err === true);
-});
-
-function handleCompanyNameBlur() {
-  errors.companyName = validateField("empty", formData.companyName);
-}
-
-function handleCnpjBlur() {
-  errors.cnpj = !validateField("cnpj", formData.cnpj);
-}
-
-function handleOpenDateDayBlur() {
-  errors.openDate = !validateField("date", formData.openDate);
-}
-
-function handleTelephoneBlur() {
-  errors.telephone = !validateField("phone", formData.telephone);
-}
+const { errors, handleBlur, resetError, hasErrors } = useFieldValidation(
+  formData,
+  validationType
+);
 
 function handleGoBack() {
   emit("complete", "WELCOME", formData);
@@ -66,8 +51,8 @@ onMounted(() => {
           class="input-default"
           type="text"
           v-model.trim="formData.companyName"
-          @blur="handleCompanyNameBlur"
-          @focus="errors.companyName = false"
+          @blur="() => handleBlur('companyName')"
+          @focus="() => resetError('companyName')"
           :class="['input-default', errors.companyName ? 'input-invalid' : '']"
         />
         <span v-if="errors.companyName" class="error-message">
@@ -84,8 +69,8 @@ onMounted(() => {
           name="cnpj"
           maxlength="18"
           v-model.trim="formData.cnpj"
-          @blur="handleCnpjBlur"
-          @focus="errors.cnpj = false"
+          @blur="() => handleBlur('cnpj')"
+          @focus="() => resetError('cnpj')"
           :class="['input-default', errors.cnpj ? 'input-invalid' : '']"
         />
         <span v-if="errors.cnpj" class="error-message">
@@ -101,8 +86,8 @@ onMounted(() => {
           type="date"
           name="openDate"
           v-model="formData.openDate"
-          @blur="handleOpenDateDayBlur"
-          @focus="errors.openDate = false"
+          @blur="() => handleBlur('openDate')"
+          @focus="() => resetError('openDate')"
           :class="['input-default', errors.openDate ? 'input-invalid' : '']"
         />
         <span v-if="errors.openDate" class="error-message">
@@ -120,8 +105,8 @@ onMounted(() => {
           name="telephone"
           inputmode="numeric"
           v-model="formData.telephone"
-          @blur="handleTelephoneBlur"
-          @focus="errors.telephone = false"
+          @blur="() => handleBlur('telephone')"
+          @focus="() => resetError('telephone')"
           :class="['input-default', errors.telephone ? 'input-invalid' : '']"
         />
         <span v-if="errors.telephone" class="error-message">
@@ -132,7 +117,7 @@ onMounted(() => {
       <div class="submit">
         <button class="button-outlined" @click="handleGoBack">Voltar</button>
 
-        <button type="submit" class="button-orange" :disabled="hasErrors">
+        <button type="submit" class="button-orange" :disabled="hasErrors()">
           Continuar
         </button>
       </div>

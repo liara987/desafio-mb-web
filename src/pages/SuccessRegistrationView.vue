@@ -31,8 +31,6 @@ function handleGoBackToHome() {
 </template>
 
 <style lang="scss">
-@import "@/assets/scss/mixins";
-
 .success-page {
   @include flex-center(column);
   text-align: center;

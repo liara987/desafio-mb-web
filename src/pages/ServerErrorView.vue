@@ -22,8 +22,6 @@ function handleGoBack() {
 </template>
 
 <style lang="scss">
-@import "@/assets/scss/mixins";
-
 .error-page {
   @include flex-center(column);
   padding: 2rem; /** 32px */

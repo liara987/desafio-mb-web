@@ -243,7 +243,7 @@ onMounted(() => {
       <div class="submit">
         <button class="button-outlined" @click="handleGoBack">Voltar</button>
 
-        <button type="submit" class="button-orange" :disabled="hasErrors">
+        <button type="submit" class="button-orange" :disabled="hasErrors()">
           Cadastrar
         </button>
       </div>

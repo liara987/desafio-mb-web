@@ -1,24 +1,21 @@
 <script setup>
-import { computed, onMounted, reactive } from "vue";
+import { onMounted, reactive } from "vue";
 
+import { useFieldValidation } from "../composables/fieldsValidation";
 import { fillFormData } from "../utils/fillFormData";
 import { createFormData, createProps } from "../utils/formFactory";
-import { validateField } from "../utils/validators";
+
+const validationType = {
+  password: "password",
+};
 
 const emit = defineEmits(["complete"]);
 const props = defineProps(createProps());
 const formData = reactive(createFormData(props.data.personType, 3));
-const errors = reactive({
-  password: false,
-});
-
-const hasErrors = computed(() => {
-  return Object.values(errors).some((err) => err === true);
-});
-
-function handlePasswordBlur() {
-  errors.password = !validateField("password", formData.password);
-}
+const { errors, handleBlur, resetError, hasErrors } = useFieldValidation(
+  formData,
+  validationType
+);
 
 function handleGoBack() {
   if (formData.personType === "pessoa-fisica") {
@@ -53,8 +50,8 @@ onMounted(() => {
           id="password"
           type="text"
           v-model.trim="formData.password"
-          @blur="handlePasswordBlur"
-          @focus="errors.password = false"
+          @blur="() => handleBlur('password')"
+          @focus="() => resetError('password')"
           :class="['input-default', errors.password ? 'input-invalid' : '']"
         />
         <span v-if="errors.password" class="error-message">
@@ -73,7 +70,7 @@ onMounted(() => {
       <div class="submit">
         <button class="button-outlined" @click="handleGoBack">Voltar</button>
 
-        <button type="submit" class="button-orange" :disabled="hasErrors">
+        <button type="submit" class="button-orange" :disabled="hasErrors()">
           Continuar
         </button>
       </div>

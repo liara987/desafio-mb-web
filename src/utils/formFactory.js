@@ -37,14 +37,6 @@ export function createFormData(type, step = 1, data = {}) {
   };
 }
 
-export function createFormPassword(data = {}) {
-  return {
-    step: 3,
-    password: data.password || "",
-    personType: data.personType || "",
-  };
-}
-
 export function createErrors(typePerson) {
   return {
     email: false,

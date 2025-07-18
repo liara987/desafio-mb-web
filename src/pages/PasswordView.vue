@@ -2,7 +2,7 @@
 import { computed, onMounted, reactive } from "vue";
 
 import { fillFormData } from "../utils/fillFormData";
-import { createFormPassword, createProps } from "../utils/formFactory";
+import { createFormData, createProps } from "../utils/formFactory";
 import { validateField } from "../utils/validators";
 
 const emit = defineEmits(["complete"]);
@@ -13,7 +13,7 @@ const errors = reactive({
   password: false,
 });
 
-const formData = reactive(createFormPassword(props.data));
+const formData = reactive(createFormData(props.data.personType, 3));
 
 const hasErrors = computed(() => {
   return Object.values(errors).some((err) => err === true);

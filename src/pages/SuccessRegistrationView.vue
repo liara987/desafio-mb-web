@@ -1,3 +1,14 @@
+<script setup>
+import { createProps } from "../utils/formFactory";
+
+const emit = defineEmits(["complete"]);
+const props = defineProps(createProps());
+
+function handleGoBackToHome() {
+  window.location.reload();
+}
+</script>
+
 <template>
   <div class="success-page">
     <h2 class="title">
@@ -18,17 +29,6 @@
     </button>
   </div>
 </template>
-
-<script setup>
-import { createProps } from "../utils/formFactory";
-
-const emit = defineEmits(["complete"]);
-const props = defineProps(createProps());
-
-function handleGoBackToHome() {
-  window.location.reload();
-}
-</script>
 
 <style lang="scss">
 @import "@/assets/scss/mixins";

@@ -1,3 +1,13 @@
+<script setup>
+import iconError404 from "../assets/images/error-404.png";
+
+const emit = defineEmits(["complete"]);
+
+function handleGoBack() {
+  emit("complete", "REVIEW_INFOS");
+}
+</script>
+
 <template>
   <div class="error-page">
     <h1 class="title">Opa! Tivemos um erro no servidor</h1>
@@ -10,16 +20,6 @@
     </button>
   </div>
 </template>
-
-<script setup>
-import iconError404 from "../assets/images/error-404.png";
-
-const emit = defineEmits(["complete"]);
-
-function handleGoBack() {
-  emit("complete", "REVIEW_INFOS");
-}
-</script>
 
 <style lang="scss">
 @import "@/assets/scss/mixins";

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 
 import { useFieldValidation } from "@/composables/fieldsValidation";
 import { registerUser } from "@/service/registerUser";
@@ -18,6 +18,7 @@ const validationType = {
   companyName: "empty",
 };
 
+const isLoading = ref(false);
 const emit = defineEmits(["complete"]);
 const props = defineProps(createProps());
 const formData = reactive(createFormData(props.data.personType, 4));
@@ -32,11 +33,14 @@ function handleGoBack() {
 
 async function sendForm() {
   try {
+    isLoading.value = true;
     const result = await registerUser(formData);
     emit("complete", "SUCCESS_REGISTRATION", result);
   } catch (err) {
     console.error("Erro ao registrar usuário: ", err);
     emit("complete", "SERVER_ERROR", formData);
+  } finally {
+    isLoading.value = false;
   }
 }
 
@@ -231,5 +235,9 @@ onMounted(() => {
         </button>
       </div>
     </form>
+  </div>
+  <div class="loading-overlay" v-if="isLoading">
+    <div class="spinner" />
+    <p>Carregando...</p>
   </div>
 </template>

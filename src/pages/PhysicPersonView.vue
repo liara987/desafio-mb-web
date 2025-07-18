@@ -2,7 +2,11 @@
 import { computed, onMounted, reactive } from "vue";
 
 import { fillFormData } from "../utils/fillFormData";
-import { createErrors, createFormData } from "../utils/formFactory";
+import {
+  createErrors,
+  createFormData,
+  createProps,
+} from "../utils/formFactory";
 import { validateField } from "../utils/validators";
 
 const emit = defineEmits(["complete"]);

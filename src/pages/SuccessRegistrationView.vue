@@ -20,12 +20,10 @@
 </template>
 
 <script setup>
+import { createProps } from "../utils/formFactory";
+
 const emit = defineEmits(["complete"]);
-const props = defineProps({
-  title: "",
-  step: "",
-  data: {},
-});
+const props = defineProps(createProps());
 
 function handleGoBackToHome() {
   window.location.reload();

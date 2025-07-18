@@ -1,9 +1,9 @@
 <script setup>
-import { computed, onMounted, reactive } from "vue";
+import { onMounted, reactive } from "vue";
 
+import { useFieldValidation } from "../composables/fieldsValidation";
 import { fillFormData } from "../utils/fillFormData";
-import { createErrors, createFormData } from "../utils/formFactory";
-import { validateField } from "../utils/validators";
+import { createFormData, createProps } from "../utils/formFactory";
 
 const validationType = {
   email: "email",
@@ -23,20 +23,11 @@ const emit = defineEmits(["complete"]);
 const props = defineProps(createProps());
 
 const formData = reactive(createFormData(props.data.personType, 4));
-const errors = reactive(createErrors(props.data.personType));
 
-const hasErrors = computed(() => {
-  return Object.values(errors).some((err) => err === true);
-});
-
-function handleBlur(field) {
-  const validationTypeKey = validationType[field];
-  if (!validationTypeKey) return;
-
-  const isValid = validateField(validationTypeKey, formData[field]);
-
-  errors[field] = !isValid;
-}
+const { errors, handleBlur, resetError, hasErrors } = useFieldValidation(
+  formData,
+  validationType
+);
 
 function handleGoBack() {
   emit("complete", "PASSWORD", formData);
@@ -89,7 +80,7 @@ onMounted(() => {
           name="email"
           v-model.trim="formData.email"
           @blur="() => handleBlur('email')"
-          @focus="errors.email = false"
+          @focus="() => resetError('email')"
           :class="['input-default', errors.email ? 'input-invalid' : '']"
         />
         <span v-if="errors.email" class="error-message">
@@ -106,7 +97,7 @@ onMounted(() => {
             type="text"
             v-model.trim="formData.name"
             @blur="() => handleBlur('name')"
-            @focus="errors.name = false"
+            @focus="() => resetError('name')"
             :class="['input-default', errors.name ? 'input-invalid' : '']"
           />
           <span v-if="errors.name" class="error-message">
@@ -124,7 +115,7 @@ onMounted(() => {
             maxlength="14"
             v-model.trim="formData.cpf"
             @blur="() => handleBlur('cpf')"
-            @focus="errors.cpf = false"
+            @focus="() => resetError('cpf')"
             :class="['input-default', errors.cpf ? 'input-invalid' : '']"
           />
           <span v-if="errors.cpf" class="error-message">
@@ -141,7 +132,7 @@ onMounted(() => {
             name="birthDay"
             v-model="formData.birthDay"
             @blur="() => handleBlur('birthDay')"
-            @focus="errors.birthDay = false"
+            @focus="() => resetError('birthDay')"
             :class="['input-default', errors.birthDay ? 'input-invalid' : '']"
           />
           <span v-if="errors.birthDay" class="error-message">
@@ -158,8 +149,8 @@ onMounted(() => {
             class="input-default"
             type="text"
             v-model.trim="formData.companyName"
-            @blur="() => handleBlur('name')"
-            @focus="errors.companyName = false"
+            @blur="() => handleBlur('companyName')"
+            @focus="() => resetError('companyName')"
             :class="[
               'input-default',
               errors.companyName ? 'input-invalid' : '',
@@ -180,7 +171,7 @@ onMounted(() => {
             maxlength="18"
             v-model.trim="formData.cnpj"
             @blur="() => handleBlur('cnpj')"
-            @focus="errors.cnpj = false"
+            @focus="() => resetError('cnpj')"
             :class="['input-default', errors.cnpj ? 'input-invalid' : '']"
           />
           <span v-if="errors.cnpj" class="error-message">
@@ -197,7 +188,7 @@ onMounted(() => {
             name="openDate"
             v-model="formData.openDate"
             @blur="() => handleBlur('openDate')"
-            @focus="errors.openDate = false"
+            @focus="() => resetError('openDate')"
             :class="['input-default', errors.openDate ? 'input-invalid' : '']"
           />
           <span v-if="errors.openDate" class="error-message">
@@ -217,7 +208,7 @@ onMounted(() => {
           inputmode="numeric"
           v-model="formData.telephone"
           @blur="() => handleBlur('telephone')"
-          @focus="errors.telephone = false"
+          @focus="() => resetError('telephone')"
           :class="['input-default', errors.telephone ? 'input-invalid' : '']"
         />
         <span v-if="errors.telephone" class="error-message">
@@ -233,7 +224,7 @@ onMounted(() => {
           type="text"
           v-model.trim="formData.password"
           @blur="() => handleBlur('password')"
-          @focus="errors.password = false"
+          @focus="() => resetError('password')"
           :class="['input-default', errors.password ? 'input-invalid' : '']"
         />
         <span v-if="errors.password" class="error-message">

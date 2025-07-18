@@ -1,68 +1,36 @@
 <script setup>
 import { computed, onMounted, reactive } from "vue";
 
-import { isCnpjValid } from "@/utils/validateCnpj";
-import { isDateValid } from "@/utils/validateDate";
-import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
-import { isPhoneValid } from "@/utils/validateTelephone";
+import { fillFormData } from "../utils/fillFormData";
+import { createErrors, createFormData } from "../utils/formFactory";
+import { validateField } from "../utils/validators";
 
 const emit = defineEmits(["complete"]);
 
-const props = defineProps({
-  title: "",
-  step: "",
-  data: {},
-});
+const props = defineProps(createProps());
 
-const errors = reactive({
-  companyName: false,
-  cnpj: false,
-  openDate: false,
-  telephone: false,
-});
+const errors = reactive(createErrors("pessoa-juridica"));
 
-const formData = reactive({
-  step: 2,
-  companyName: "",
-  cnpj: "",
-  openDate: "",
-  telephone: "",
-});
+const formData = reactive(createFormData("pessoa-juridica", 2));
 
 const hasErrors = computed(() => {
   return Object.values(errors).some((err) => err === true);
 });
 
 function handleCompanyNameBlur() {
-  if (formData.companyName != "") {
-    errors.companyName = false;
-  } else {
-    errors.companyName = true;
-  }
+  errors.companyName = validateField("empty", formData.companyName);
 }
 
 function handleCnpjBlur() {
-  if (isCnpjValid(formData.cnpj)) {
-    errors.cnpj = false;
-  } else {
-    errors.cnpj = true;
-  }
+  errors.cnpj = !validateField("cnpj", formData.cnpj);
 }
 
 function handleOpenDateDayBlur() {
-  if (isDateValid(formData.openDate)) {
-    errors.openDate = false;
-  } else {
-    errors.openDate = true;
-  }
+  errors.openDate = !validateField("date", formData.openDate);
 }
 
 function handleTelephoneBlur() {
-  if (isPhoneValid(formData.telephone)) {
-    errors.telephone = false;
-  } else {
-    errors.telephone = true;
-  }
+  errors.telephone = !validateField("phone", formData.telephone);
 }
 
 function handleGoBack() {
@@ -74,12 +42,7 @@ function sendForm() {
 }
 
 onMounted(() => {
-  formData.email = props.data.email;
-  formData.personType = props.data.personType;
-  formData.companyName = props.data.companyName;
-  formData.cnpj = props.data.cnpj;
-  formData.openDate = props.data.openDate;
-  formData.telephone = props.data.telephone;
+  fillFormData(formData, props.data);
 });
 </script>
 
@@ -165,11 +128,7 @@ onMounted(() => {
       <div class="submit">
         <button class="button-outlined" @click="handleGoBack">Voltar</button>
 
-        <button
-          type="submit"
-          class="button-orange"
-          :disabled="!isAllFieldsFilled(formData) || hasErrors"
-        >
+        <button type="submit" class="button-orange" :disabled="hasErrors">
           Continuar
         </button>
       </div>

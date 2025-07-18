@@ -1,40 +1,26 @@
 <script setup>
 import { computed, onMounted, reactive } from "vue";
 
-import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
-import { isPasswordValid } from "@/utils/validatePassword";
+import { fillFormData } from "../utils/fillFormData";
+import { createFormPassword } from "../utils/formFactory";
+import { validateField } from "../utils/validators";
 
 const emit = defineEmits(["complete"]);
 
-const props = defineProps({
-  title: "",
-  step: "",
-  data: {},
-});
+const props = defineProps(createProps());
 
 const errors = reactive({
-  name: false,
-  cpf: false,
-  birthDay: false,
-  telephone: false,
+  password: false,
 });
 
-const formData = reactive({
-  step: 3,
-  password: "",
-  personType: "",
-});
+const formData = reactive(createFormPassword(props.data));
 
 const hasErrors = computed(() => {
   return Object.values(errors).some((err) => err === true);
 });
 
 function handlePasswordBlur() {
-  if (isPasswordValid(formData.password)) {
-    errors.password = false;
-  } else {
-    errors.password = true;
-  }
+  errors.password = !validateField("password", formData.password);
 }
 
 function handleGoBack() {
@@ -50,8 +36,7 @@ function sendForm() {
 }
 
 onMounted(() => {
-  formData.password = props.data.password;
-  formData.personType = props.data.personType;
+  fillFormData(formData, props.data);
 });
 </script>
 
@@ -91,11 +76,7 @@ onMounted(() => {
       <div class="submit">
         <button class="button-outlined" @click="handleGoBack">Voltar</button>
 
-        <button
-          type="submit"
-          class="button-orange"
-          :disabled="!isAllFieldsFilled(formData) || hasErrors"
-        >
+        <button type="submit" class="button-orange" :disabled="hasErrors">
           Continuar
         </button>
       </div>

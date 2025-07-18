@@ -1,5 +1,5 @@
 <script setup>
-import iconError404 from "../assets/images/error-404.png";
+import iconError404 from "@/assets/images/error-404.png";
 
 const emit = defineEmits(["complete"]);
 

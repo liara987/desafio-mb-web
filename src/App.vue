@@ -3,12 +3,12 @@ import { markRaw, ref } from "vue";
 // markRaw foi utilizado para remover warnings sobre performance
 
 import JuridicalPersonView from "@/pages/JuridicalPersonView.vue";
+import PasswordView from "@/pages/PasswordView.vue";
 import PhysicPersonView from "@/pages/PhysicPersonView.vue";
 import ReviewInfosView from "@/pages/ReviewInfosView.vue";
+import ServerErrorView from "@/pages/ServerErrorView.vue";
 import SuccessRegistrationView from "@/pages/SuccessRegistrationView.vue";
 import WelcomeView from "@/pages/WelcomeView.vue";
-import PasswordView from "./pages/PasswordView.vue";
-import ServerErrorView from "./pages/ServerErrorView.vue";
 
 const steps = Object.freeze({
   WELCOME: {

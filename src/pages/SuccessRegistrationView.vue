@@ -1,5 +1,5 @@
 <script setup>
-import { createProps } from "../utils/formFactory";
+import { createProps } from "@/utils/formFactory";
 
 const emit = defineEmits(["complete"]);
 const props = defineProps(createProps());

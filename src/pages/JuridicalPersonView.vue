@@ -1,9 +1,9 @@
 <script setup>
 import { onMounted, reactive } from "vue";
 
-import { useFieldValidation } from "../composables/fieldsValidation";
-import { fillFormData } from "../utils/fillFormData";
-import { createFormData, createProps } from "../utils/formFactory";
+import { useFieldValidation } from "@/composables/fieldsValidation";
+import { fillFormData } from "@/utils/fillFormData";
+import { createFormData, createProps } from "@/utils/formFactory";
 
 const validationType = {
   email: "email",

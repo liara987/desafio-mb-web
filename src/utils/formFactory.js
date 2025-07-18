@@ -1,5 +1,3 @@
-// utils/formFactory.js
-
 export function createFormData(type, step = 1, data = {}) {
   const base = {
     step: step,

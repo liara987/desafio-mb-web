@@ -1,41 +1,25 @@
 <script setup>
-import { computed, onMounted, reactive } from "vue";
+import { onMounted, reactive } from "vue";
 
+import { useFieldValidation } from "../composables/fieldsValidation";
 import { fillFormData } from "../utils/fillFormData";
-import {
-  createErrors,
-  createFormData,
-  createProps,
-} from "../utils/formFactory";
-import { validateField } from "../utils/validators";
+import { createFormData, createProps } from "../utils/formFactory";
+
+const validationType = {
+  cpf: "cpf",
+  telephone: "phone",
+  birthDay: "date",
+  password: "password",
+  name: "empty",
+};
 
 const emit = defineEmits(["complete"]);
-
 const props = defineProps(createProps());
-
-const errors = reactive(createErrors("pessoa-fisica"));
-
 const formData = reactive(createFormData("pessoa-fisica", 2));
-
-const hasErrors = computed(() => {
-  return Object.values(errors).some((err) => err === true);
-});
-
-function handleNameBlur() {
-  errors.name = validateField("empty", formData.name);
-}
-
-function handleCpfBlur() {
-  errors.cpf = !validateField("cpf", formData.cpf);
-}
-
-function handleBirthDayBlur() {
-  errors.birthDay = !validateField("date", formData.birthDay);
-}
-
-function handleTelephoneBlur() {
-  errors.telephone = !validateField("phone", formData.telephone);
-}
+const { errors, handleBlur, resetError, hasErrors } = useFieldValidation(
+  formData,
+  validationType
+);
 
 function handleGoBack() {
   emit("complete", "WELCOME", formData);
@@ -66,8 +50,8 @@ onMounted(() => {
           id="name"
           type="text"
           v-model.trim="formData.name"
-          @blur="handleNameBlur"
-          @focus="errors.name = false"
+          @blur="() => handleBlur('name')"
+          @focus="() => resetError('name')"
           :class="['input-default', errors.name ? 'input-invalid' : '']"
         />
         <span v-if="errors.name" class="error-message">
@@ -84,8 +68,8 @@ onMounted(() => {
           name="cpf"
           maxlength="14"
           v-model.trim="formData.cpf"
-          @blur="handleCpfBlur"
-          @focus="errors.cpf = false"
+          @blur="() => handleBlur('cpf')"
+          @focus="() => resetError('cpf')"
           :class="['input-default', errors.cpf ? 'input-invalid' : '']"
         />
         <span v-if="errors.cpf" class="error-message">
@@ -101,8 +85,8 @@ onMounted(() => {
           type="date"
           name="birthDay"
           v-model="formData.birthDay"
-          @blur="handleBirthDayBlur"
-          @focus="errors.birthDay = false"
+          @blur="() => handleBlur('birthDay')"
+          @focus="() => resetError('birthDay')"
           :class="['input-default', errors.birthDay ? 'input-invalid' : '']"
         />
         <span v-if="errors.birthDay" class="error-message">
@@ -120,8 +104,8 @@ onMounted(() => {
           name="telephone"
           inputmode="numeric"
           v-model="formData.telephone"
-          @blur="handleTelephoneBlur"
-          @focus="errors.telephone = false"
+          @blur="() => handleBlur('telephone')"
+          @focus="() => resetError('telephone')"
           :class="['input-default', errors.telephone ? 'input-invalid' : '']"
         />
         <span v-if="errors.telephone" class="error-message">
@@ -132,7 +116,7 @@ onMounted(() => {
       <div class="submit">
         <button class="button-outlined" @click="handleGoBack">Voltar</button>
 
-        <button type="submit" class="button-orange" :disabled="hasErrors">
+        <button type="submit" class="button-orange" :disabled="hasErrors()">
           Continuar
         </button>
       </div>

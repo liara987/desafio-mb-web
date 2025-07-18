@@ -1,69 +1,36 @@
 <script setup>
 import { computed, onMounted, reactive } from "vue";
 
-import { isCpfValid } from "@/utils/validateCpf";
-import { isDateValid } from "@/utils/validateDate";
-import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
-import { isPhoneValid } from "@/utils/validateTelephone";
+import { fillFormData } from "../utils/fillFormData";
+import { createErrors, createFormData } from "../utils/formFactory";
+import { validateField } from "../utils/validators";
 
 const emit = defineEmits(["complete"]);
 
-const props = defineProps({
-  title: "",
-  step: "",
-  data: {},
-});
+const props = defineProps(createProps());
 
-const errors = reactive({
-  name: false,
-  cpf: false,
-  birthDay: false,
-  telephone: false,
-});
+const errors = reactive(createErrors("pessoa-fisica"));
 
-const formData = reactive({
-  step: 2,
-  name: "",
-  cpf: "",
-  birthDay: "",
-  telephone: "",
-  personType: "",
-});
+const formData = reactive(createFormData("pessoa-fisica", 2));
 
 const hasErrors = computed(() => {
   return Object.values(errors).some((err) => err === true);
 });
 
 function handleNameBlur() {
-  if (formData.name != "") {
-    errors.name = false;
-  } else {
-    errors.name = true;
-  }
+  errors.name = validateField("empty", formData.name);
 }
 
 function handleCpfBlur() {
-  if (isCpfValid(formData.cpf)) {
-    errors.cpf = false;
-  } else {
-    errors.cpf = true;
-  }
+  errors.cpf = !validateField("cpf", formData.cpf);
 }
 
 function handleBirthDayBlur() {
-  if (isDateValid(formData.birthDay)) {
-    errors.birthDay = false;
-  } else {
-    errors.birthDay = true;
-  }
+  errors.birthDay = !validateField("date", formData.birthDay);
 }
 
 function handleTelephoneBlur() {
-  if (isPhoneValid(formData.telephone)) {
-    errors.telephone = false;
-  } else {
-    errors.telephone = true;
-  }
+  errors.telephone = !validateField("phone", formData.telephone);
 }
 
 function handleGoBack() {
@@ -75,12 +42,7 @@ function sendForm() {
 }
 
 onMounted(() => {
-  formData.email = props.data.email;
-  formData.name = props.data.name;
-  formData.cpf = props.data.cpf;
-  formData.birthDay = props.data.birthDay;
-  formData.telephone = props.data.telephone;
-  formData.personType = props.data.personType;
+  fillFormData(formData, props.data);
 });
 </script>
 
@@ -166,11 +128,7 @@ onMounted(() => {
       <div class="submit">
         <button class="button-outlined" @click="handleGoBack">Voltar</button>
 
-        <button
-          type="submit"
-          class="button-orange"
-          :disabled="!isAllFieldsFilled(formData) || hasErrors"
-        >
+        <button type="submit" class="button-orange" :disabled="hasErrors">
           Continuar
         </button>
       </div>

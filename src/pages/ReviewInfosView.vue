@@ -2,6 +2,7 @@
 import { onMounted, reactive } from "vue";
 
 import { useFieldValidation } from "../composables/fieldsValidation";
+import { registerUser } from "../service/registerUser";
 import { fillFormData } from "../utils/fillFormData";
 import { createFormData, createProps } from "../utils/formFactory";
 
@@ -17,7 +18,6 @@ const validationType = {
   companyName: "empty",
 };
 
-const api = import.meta.env.VITE_API_URL_BASE;
 const emit = defineEmits(["complete"]);
 const props = defineProps(createProps());
 const formData = reactive(createFormData(props.data.personType, 4));
@@ -32,25 +32,11 @@ function handleGoBack() {
 
 async function sendForm() {
   try {
-    const response = await fetch(`${api}/registration`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Erro ao cadastrar: " + errorData.error);
-      return;
-    }
-
-    const result = await response.json();
+    const result = await registerUser(formData);
     emit("complete", "SUCCESS_REGISTRATION", result);
   } catch (err) {
-    emit("complete", "SERVER_ERROR", formData);
     console.error("Erro ao registrar usuário: ", err);
+    emit("complete", "SERVER_ERROR", formData);
   }
 }
 

@@ -37,25 +37,6 @@ export function createFormData(type, step = 1, data = {}) {
   };
 }
 
-export function createErrors(typePerson) {
-  return {
-    email: false,
-    telephone: false,
-    password: false,
-    ...(typePerson === "pessoa-fisica"
-      ? {
-          name: false,
-          cpf: false,
-          birthDay: false,
-        }
-      : {
-          companyName: false,
-          cnpj: false,
-          openDate: false,
-        }),
-  };
-}
-
 export function createProps() {
   return {
     title: "",

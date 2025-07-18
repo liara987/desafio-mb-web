@@ -204,7 +204,7 @@ export const validationType = {
     return true;
   },
   empty: (field = "") => {
-    return field === "";
+    return !(field === "");
   },
 };
 

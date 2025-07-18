@@ -6,14 +6,11 @@ import { createFormData, createProps } from "../utils/formFactory";
 import { validateField } from "../utils/validators";
 
 const emit = defineEmits(["complete"]);
-
 const props = defineProps(createProps());
-
+const formData = reactive(createFormData(props.data.personType, 3));
 const errors = reactive({
   password: false,
 });
-
-const formData = reactive(createFormData(props.data.personType, 3));
 
 const hasErrors = computed(() => {
   return Object.values(errors).some((err) => err === true);

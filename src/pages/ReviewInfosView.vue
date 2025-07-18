@@ -19,11 +19,8 @@ const validationType = {
 
 const api = import.meta.env.VITE_API_URL_BASE;
 const emit = defineEmits(["complete"]);
-
 const props = defineProps(createProps());
-
 const formData = reactive(createFormData(props.data.personType, 4));
-
 const { errors, handleBlur, resetError, hasErrors } = useFieldValidation(
   formData,
   validationType

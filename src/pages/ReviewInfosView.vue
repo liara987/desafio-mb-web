@@ -1,139 +1,41 @@
 <script setup>
 import { computed, onMounted, reactive } from "vue";
 
-import { isCnpjValid } from "@/utils/validateCnpj";
-import { isCpfValid } from "@/utils/validateCpf";
-import { isDateValid } from "@/utils/validateDate";
-import { isEmailValid } from "@/utils/validateEmail";
-import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
-import { isPasswordValid } from "@/utils/validatePassword";
-import { isPhoneValid } from "@/utils/validateTelephone";
+import { fillFormData } from "../utils/fillFormData";
+import { createErrors, createFormData } from "../utils/formFactory";
+import { validateField } from "../utils/validators";
+
+const validationType = {
+  email: "email",
+  cpf: "cpf",
+  cnpj: "cnpj",
+  telephone: "phone",
+  birthDay: "date",
+  openDate: "date",
+  password: "password",
+  name: "empty",
+  companyName: "empty",
+};
 
 const api = import.meta.env.VITE_API_URL_BASE;
 const emit = defineEmits(["complete"]);
 
-const props = defineProps({
-  title: "",
-  step: "",
-  data: {},
-});
+const props = defineProps(createProps());
 
-const formData = createFormData(props.data.personType);
-const errors = createErrors(props.data.personType);
+const formData = reactive(createFormData(props.data.personType, 4));
+const errors = reactive(createErrors(props.data.personType));
 
 const hasErrors = computed(() => {
   return Object.values(errors).some((err) => err === true);
 });
 
-function createFormData(typePerson) {
-  return reactive({
-    step: 4,
-    email: "",
-    telephone: "",
-    password: "",
-    ...(typePerson === "pessoa-fisica"
-      ? {
-          name: "",
-          cpf: "",
-          birthDay: "",
-        }
-      : {
-          companyName: "",
-          cnpj: "",
-          openDate: "",
-        }),
-  });
-}
+function handleBlur(field) {
+  const validationTypeKey = validationType[field];
+  if (!validationTypeKey) return;
 
-function createErrors(typePerson) {
-  return reactive({
-    email: false,
-    telephone: false,
-    password: false,
-    ...(typePerson === "pessoa-fisica"
-      ? {
-          name: false,
-          cpf: false,
-          birthDay: false,
-        }
-      : {
-          companyName: false,
-          cnpj: false,
-          openDate: false,
-        }),
-  });
-}
+  const isValid = validateField(validationTypeKey, formData[field]);
 
-function handleEmailBlur() {
-  if (isEmailValid(formData.email)) {
-    errors.email = false;
-  } else {
-    errors.email = true;
-  }
-}
-
-function handleNameBlur() {
-  if (formData.name != "") {
-    errors.name = false;
-  } else {
-    errors.name = true;
-  }
-}
-
-function handleCpfBlur() {
-  if (isCpfValid(formData.cpf)) {
-    errors.cpf = false;
-  } else {
-    errors.cpf = true;
-  }
-}
-
-function handleBirthDayBlur() {
-  if (isDateValid(formData.birthDay)) {
-    errors.birthDay = false;
-  } else {
-    errors.birthDay = true;
-  }
-}
-
-function handleCompanyNameBlur() {
-  if (formData.companyName != "") {
-    errors.companyName = false;
-  } else {
-    errors.companyName = true;
-  }
-}
-
-function handleCnpjBlur() {
-  if (isCnpjValid(formData.cnpj)) {
-    errors.cnpj = false;
-  } else {
-    errors.cnpj = true;
-  }
-}
-
-function handleOpenDateDayBlur() {
-  if (isDateValid(formData.openDate)) {
-    errors.openDate = false;
-  } else {
-    errors.openDate = true;
-  }
-}
-
-function handleTelephoneBlur() {
-  if (isPhoneValid(formData.telephone)) {
-    errors.telephone = false;
-  } else {
-    errors.telephone = true;
-  }
-}
-
-function handlePasswordBlur() {
-  if (isPasswordValid(formData.password)) {
-    errors.password = false;
-  } else {
-    errors.password = true;
-  }
+  errors[field] = !isValid;
 }
 
 function handleGoBack() {
@@ -165,21 +67,7 @@ async function sendForm() {
 }
 
 onMounted(() => {
-  formData.personType = props.data.personType;
-  formData.email = props.data.email;
-
-  // Pessoa fisica
-  formData.name = props.data.name;
-  formData.cpf = props.data.cpf;
-  formData.birthDay = props.data.birthDay;
-
-  // Pessoa Juridica
-  formData.companyName = props.data.companyName;
-  formData.cnpj = props.data.cnpj;
-  formData.openDate = props.data.openDate;
-
-  formData.telephone = props.data.telephone;
-  formData.password = props.data.password;
+  fillFormData(formData, props.data);
 });
 </script>
 
@@ -200,7 +88,7 @@ onMounted(() => {
           type="email"
           name="email"
           v-model.trim="formData.email"
-          @blur="handleEmailBlur"
+          @blur="() => handleBlur('email')"
           @focus="errors.email = false"
           :class="['input-default', errors.email ? 'input-invalid' : '']"
         />
@@ -217,7 +105,7 @@ onMounted(() => {
             id="name"
             type="text"
             v-model.trim="formData.name"
-            @blur="handleNameBlur"
+            @blur="() => handleBlur('name')"
             @focus="errors.name = false"
             :class="['input-default', errors.name ? 'input-invalid' : '']"
           />
@@ -235,7 +123,7 @@ onMounted(() => {
             name="cpf"
             maxlength="14"
             v-model.trim="formData.cpf"
-            @blur="handleCpfBlur"
+            @blur="() => handleBlur('cpf')"
             @focus="errors.cpf = false"
             :class="['input-default', errors.cpf ? 'input-invalid' : '']"
           />
@@ -252,7 +140,7 @@ onMounted(() => {
             type="date"
             name="birthDay"
             v-model="formData.birthDay"
-            @blur="handleBirthDayBlur"
+            @blur="() => handleBlur('birthDay')"
             @focus="errors.birthDay = false"
             :class="['input-default', errors.birthDay ? 'input-invalid' : '']"
           />
@@ -270,7 +158,7 @@ onMounted(() => {
             class="input-default"
             type="text"
             v-model.trim="formData.companyName"
-            @blur="handleCompanyNameBlur"
+            @blur="() => handleBlur('name')"
             @focus="errors.companyName = false"
             :class="[
               'input-default',
@@ -291,7 +179,7 @@ onMounted(() => {
             name="cnpj"
             maxlength="18"
             v-model.trim="formData.cnpj"
-            @blur="handleCnpjBlur"
+            @blur="() => handleBlur('cnpj')"
             @focus="errors.cnpj = false"
             :class="['input-default', errors.cnpj ? 'input-invalid' : '']"
           />
@@ -308,7 +196,7 @@ onMounted(() => {
             type="date"
             name="openDate"
             v-model="formData.openDate"
-            @blur="handleOpenDateDayBlur"
+            @blur="() => handleBlur('openDate')"
             @focus="errors.openDate = false"
             :class="['input-default', errors.openDate ? 'input-invalid' : '']"
           />
@@ -328,7 +216,7 @@ onMounted(() => {
           name="telephone"
           inputmode="numeric"
           v-model="formData.telephone"
-          @blur="handleTelephoneBlur"
+          @blur="() => handleBlur('telephone')"
           @focus="errors.telephone = false"
           :class="['input-default', errors.telephone ? 'input-invalid' : '']"
         />
@@ -344,7 +232,7 @@ onMounted(() => {
           id="password"
           type="text"
           v-model.trim="formData.password"
-          @blur="handlePasswordBlur"
+          @blur="() => handleBlur('password')"
           @focus="errors.password = false"
           :class="['input-default', errors.password ? 'input-invalid' : '']"
         />
@@ -364,11 +252,7 @@ onMounted(() => {
       <div class="submit">
         <button class="button-outlined" @click="handleGoBack">Voltar</button>
 
-        <button
-          type="submit"
-          class="button-orange"
-          :disabled="!isAllFieldsFilled(formData) || hasErrors"
-        >
+        <button type="submit" class="button-orange" :disabled="hasErrors">
           Cadastrar
         </button>
       </div>

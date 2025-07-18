@@ -1,8 +1,9 @@
 <script setup>
 import { onMounted, reactive } from "vue";
 
-import { isEmailValid } from "@/utils/validateEmail";
-import { isAllFieldsFilled } from "@/utils/validateFieldFilled";
+import { validateField } from "@/utils/validators";
+import { fillFormData } from "../utils/fillFormData";
+import { createFormData, createProps } from "../utils/formFactory";
 
 const emit = defineEmits(["complete"]);
 
@@ -10,24 +11,12 @@ const error = reactive({
   email: false,
 });
 
-const props = defineProps({
-  title: "",
-  step: "",
-  data: {},
-});
+const props = defineProps(createProps());
 
-const formData = reactive({
-  step: 1,
-  email: "",
-  personType: "", // pessoa física ou jurídica
-});
+const formData = reactive(createFormData());
 
 function handleEmailBlur() {
-  if (isEmailValid(formData.email)) {
-    error.email = false;
-  } else {
-    error.email = true;
-  }
+  error.email = !validateField("email", formData.email);
 }
 
 function sendForm() {
@@ -39,8 +28,7 @@ function sendForm() {
 }
 
 onMounted(() => {
-  formData.email = props.data.email;
-  formData.personType = props.data.personType;
+  fillFormData(formData, props.data);
 });
 </script>
 
@@ -93,9 +81,7 @@ onMounted(() => {
       <button
         type="submit"
         class="button-orange"
-        :disabled="
-          !isAllFieldsFilled(formData) || !isEmailValid(formData.email)
-        "
+        :disabled="formData.personType === undefined || error.email"
       >
         Continuar
       </button>
